@@ -1,0 +1,55 @@
+tags:
+    name: User Signup and Login Section
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        username:
+          type: string
+          example: Hiii
+        email:
+          type: string
+          example: abc@gmail.com
+        password:
+          type: string    
+      required:  
+          username 
+
+paths:
+  /signup:
+    post:
+      summary: This API is used to Signup new user in Instagram.
+      tags: [User Signup and Login Section]
+      description: User can Signup by filling the entries.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+      responses:
+        '201':
+          description: Created.
+        '406':
+          description: Value not accepted.
+        '500':
+          description: Inernal server error.          
+  /login:
+    post:
+      summary: This API is used to Logged In in Instagram.
+      tags: [User Signup and Login Section]
+      description: User can login by filling the entries.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+      responses:
+        '200':
+          description: Authorized.
+        '401':
+          description: Unauthorized Response.
+        '500':
+          description: Inernal server error.
