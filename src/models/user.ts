@@ -1,5 +1,5 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import jwt from 'jsonwebtoken';
+import mongoose, { Schema, Document } from "mongoose";
+import jwt from "jsonwebtoken";
 
 interface User extends Document {
   username: string;
@@ -28,11 +28,12 @@ const userSchema = new Schema<User>({
 });
 
 userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET_KEY!,{expiresIn:("1h")});
+  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET_KEY!, {
+    expiresIn: "1h",
+  });
   return token;
 };
 
-const User = mongoose.model<User>('User', userSchema);
+const User = mongoose.model<User>("User", userSchema);
 
 export default User;
- 
