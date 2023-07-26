@@ -1,7 +1,7 @@
-import { RequestHandler } from 'express';
-import bcrypt from 'bcrypt';
-import Joi from 'joi';
-import User from '../models/user';
+import { RequestHandler } from "express";
+import bcrypt from "bcrypt";
+import Joi from "joi";
+import User from "../models/user";
 
 const signupSchema = Joi.object({
   username: Joi.string().min(5).max(20).required(),
@@ -9,21 +9,21 @@ const signupSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-const signupHandler: RequestHandler = async (req, res) => {
-  
-  // Validate user input
+const signupHandler: RequestHandler = async (req, res, next) => {
+  // --------------------Validate user input
+
   const { error, value } = signupSchema.validate(req.body);
 
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
   }
 
-  // Check if user already exists
+  //---------------Check if user already exists
 
   const existingUser = await User.findOne({ email: value.email });
 
   if (existingUser) {
-    return res.status(400).json({ error: 'User already exists' });
+    return res.status(400).json({ error: "User already exists" });
   }
 
   // Hash the password
@@ -36,15 +36,10 @@ const signupHandler: RequestHandler = async (req, res) => {
     email: value.email,
     password: hashedPassword,
   });
-  
+
   await user.save();
-  res.status(201).json({ message: 'User created successfully' });
+  res.status(201).json({ message: "User created successfully" });
   next();
 };
 
 export default signupHandler;
-
-function next() {
-  throw new Error('Function not implemented.');
-}
-

@@ -1,6 +1,7 @@
-import { RequestHandler } from 'express';
+import {Request, Response} from 'express';
 
-const protectedHandler: RequestHandler = (req, res) => {
+
+const protectedHandler = (req:Request, res:Response) => {
   res.json({ message: 'Protected route' });
 };
 
